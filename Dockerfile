@@ -25,6 +25,7 @@ RUN curl -o actions-runner-linux-x64-${VERSION}.tar.gz -L https://github.com/act
     chown -R docker ~docker
 
 COPY start.sh start.sh
+COPY server.js server.js
 RUN chmod +x start.sh
 
 USER docker
