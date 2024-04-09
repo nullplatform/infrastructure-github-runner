@@ -3,7 +3,7 @@
 ID=$(($(date +%s)*1000))
 
 cd /home/docker/actions-runner
-./config.sh --url https://github.com/${URL} --token ${TOKEN} --name service-provisioning-${ID} --work working-dir --labels service-provisioning --unattended --replace
+./config.sh --url ${URL} --token ${TOKEN} --name service-provisioning-${ID} --work working-dir --labels service-provisioning --unattended --replace
 
 cleanup() {
     echo "Removing runner..."
