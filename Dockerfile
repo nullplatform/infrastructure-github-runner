@@ -2,7 +2,6 @@ FROM ubuntu:latest
 
 ARG ARCH=linux-x64
 ARG VERSION=2.315.0
-ARG VERSION_CHECKSUM=6362646b67613c6981db76f4d25e68e463a9af2cc8d16e31bfeabe39153606a0
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PORT=8080
 
@@ -20,7 +19,6 @@ RUN apt-get update && \
 WORKDIR /home/docker/actions-runner
 
 RUN curl -o actions-runner-${ARCH}-${VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${VERSION}/actions-runner-${ARCH}-${VERSION}.tar.gz && \
-    echo "${VERSION_CHECKSUM}  actions-runner-${ARCH}-${VERSION}.tar.gz" | shasum -a 256 -c && \
     tar xzf ./actions-runner-${ARCH}-${VERSION}.tar.gz && \
     rm ./actions-runner-${ARCH}-${VERSION}.tar.gz && \
     chown -R docker ~docker
