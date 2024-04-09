@@ -11,7 +11,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PLATFORMS: linux/amd64,linux/arm64
     steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Start Nullplatform CI
         id: setup-ci
         uses: nullplatform/github-action-setup-ci@v1
@@ -29,6 +35,10 @@ jobs:
       - name: Build asset for ${{ steps.setup-ci.outputs.application-name }}
         id: build-asset
         uses: nullplatform/github-action-asset-build@v1
+        with:
+          command: docker/buildx
+          arguments: build --build-arg VERSION=${{ vars.VERSION }} --build-arg ARCH=${{ vars.ARCH }}
+          options: --platform ${{env.PLATFORMS}} -t main .
       - name: Push asset for ${{ steps.setup-ci.outputs.application-name }}
         id: push-asset
         uses: nullplatform/github-action-asset-push@v1
