@@ -38,7 +38,7 @@ jobs:
         with:
           command: docker
           arguments: buildx build --build-arg VERSION=${{ vars.VERSION }} --build-arg ARCH=${{ vars.ARCH }}
-          options: --platform ${{env.PLATFORMS}} --load -t main:latest .
+          options: --platform ${{env.PLATFORMS}} -t main:latest .
       - name: Push asset for ${{ steps.setup-ci.outputs.application-name }}
         id: push-asset
         uses: nullplatform/github-action-asset-push@v1
