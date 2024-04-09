@@ -29,8 +29,6 @@ jobs:
       - name: Build asset for ${{ steps.setup-ci.outputs.application-name }}
         id: build-asset
         uses: nullplatform/github-action-asset-build@v1
-        with:
-          options: BUILD_ARGS='--build-arg TOKEN=${{ secrets.RUNNER_TOKEN }} --build-arg URL=${{ secrets.RUNNER_URL }}'
       - name: Push asset for ${{ steps.setup-ci.outputs.application-name }}
         id: push-asset
         uses: nullplatform/github-action-asset-push@v1
