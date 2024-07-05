@@ -4,8 +4,8 @@ env:
 on:
   push:
     branches:
-      - master
       - main
+      - master
       - fix/runner-authorization
 permissions:
   id-token: write
@@ -14,15 +14,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform:
-          - asset-arch: linux/amd64
-            runner-arch: linux-x64
-            asset-name: runner-linux-amd64
-          - asset-arch: linux/arm64
-            runner-arch: linux-arm64
-            asset-name: runner-linux-arm64
     steps:
       - name: Install nullplatform cli
         run: curl https://cli.nullplatform.com/install.sh | sh
@@ -34,10 +25,14 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build asset
-        run: docker buildx build --build-arg ARCH=${{ matrix.platform.runner-arch }} --platform ${{ matrix.platform.asset-arch }} -t ${{ matrix.platform.asset-name }} --load .
+      - name: Build AMD asset
+        run: docker buildx build --platform linux/amd64 --build-arg linux-x64  -t amd --load .
+      - name: Build ARM asset
+        run: docker buildx build --platform linux/arm64 --build-arg linux-arm64 -t arm --load .
+      - name: Push AMD asset
+        run: np asset push --type docker-image --source amd --name runner-linux-amd64
       - name: Push ARM asset
-        run: np asset push --type docker-image --source ${{ matrix.platform.asset-name }} --name ${{ matrix.platform.asset-name }}
+        run: np asset push --type docker-image --source arm --name runner-linux-arm64
       - name: End nullplatform CI
         if: ${{ always() }}
         run: np build update --status ${{ contains(fromJSON('["failure", "cancelled"]'), job.status) && 'failed' || 'successful' }}
