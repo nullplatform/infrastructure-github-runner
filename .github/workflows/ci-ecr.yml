@@ -35,9 +35,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build asset
-        run: docker buildx build --platform ${{ matrix.platform.asset-arch }} -t main --load .
+        run: docker buildx build --build-arg ARCH=${{ matrix.platform.runner-arch }} --platform ${{ matrix.platform.asset-arch }} -t ${{ matrix.platform.asset-name }} --load .
       - name: Push ARM asset
-        run: np asset push --type docker-image --source main --name ${{ matrix.platform.asset-arch }}
+        run: np asset push --type docker-image --source ${{ matrix.platform.asset-name }} --name ${{ matrix.platform.asset-name }}
       - name: End nullplatform CI
         if: ${{ always() }}
         run: np build update --status ${{ contains(fromJSON('["failure", "cancelled"]'), job.status) && 'failed' || 'successful' }}
