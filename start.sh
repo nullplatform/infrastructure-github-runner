@@ -2,6 +2,11 @@
 
 ID=$(($(date +%s)*1000))
 
+echo "Starting Runner"
+
+echo "Config Runner with URL: ${URL}"
+
+
 cd /home/docker/actions-runner
 ./config.sh --url ${URL} --token ${TOKEN} --name ${NAME:-self-hosted}-${ID} --work working-dir --labels ${LABELS:-nullplatform} --unattended --replace
 
