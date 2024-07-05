@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
-ARG ARCH=linux-x64
-ARG VERSION=2.315.0
+ARG ARCH=linux-arm64
+ARG VERSION=2.317.0
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PORT=8080
 
@@ -22,9 +22,9 @@ RUN apt-get update && \
 
 WORKDIR /home/docker/actions-runner
 
-RUN curl -o actions-runner-${ARCH}-2.315.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.315.0/actions-runner-${ARCH}-2.315.0.tar.gz && \
-    tar xzf ./actions-runner-${ARCH}-2.315.0.tar.gz && \
-    rm ./actions-runner-${ARCH}-2.315.0.tar.gz && \
+RUN curl -o actions-runner-${ARCH}-${VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${VERSION}/actions-runner-${ARCH}-${VERSION}.tar.gz && \
+    tar xzf ./actions-runner-${ARCH}-${VERSION}.tar.gz && \
+    rm ./actions-runner-${ARCH}-${VERSION}.tar.gz && \
     chown -R docker ~docker
 
 COPY start.sh start.sh
