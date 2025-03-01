@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ARG ARCH=linux-x64
-ARG VERSION=2.321.0
+ARG VERSION=2.322.0
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PORT=8080
 
